@@ -22,7 +22,7 @@
         {
             Console.WriteLine($"Skriv inn produkt {productNumber}:");
 
-            Console.Write("Navn : ");
+            Console.Write("Navn: ");
             string name = Console.ReadLine();
 
             Console.Write("Pris: ");
@@ -36,12 +36,21 @@
 
         static string GetRecommendation(Product product1, int score1, Product product2, int score2)
         {
-            return score1.CompareTo(score2) switch
+            if (score1 > score2)
             {
-                1 => $"{product1.Name} er det beste valget basert på poengene.",
-                -1 => $"{product2.Name} er det beste valget basert på poengene.",
-                _ => "Begge produktene har like poeng. Velg basert på preferanse!"
-            };
+                return $"{product1.Name} er det best valget basert på poengene.";
+            }
+            else if (score1 < score2)
+            {
+                return $"{product2.Name} er det best valget basert på poengene.";
+            }
+            else
+            {
+                // If scores are tied, randomize the choice
+                Random random = new Random();
+                Product randomChoice = random.Next(2) == 0 ? product1 : product2;
+                return $"Begge produktene har like poeng. Velger tilfeldig: {randomChoice.Name}.";
+            }
         }
     }
 }
